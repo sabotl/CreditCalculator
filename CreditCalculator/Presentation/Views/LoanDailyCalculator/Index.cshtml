@@ -1,0 +1,37 @@
+﻿@using CreditCalculator.Domain.Models.Daily
+@model DailyLoanInputModel
+@{
+    ViewData["Title"] = "Кредитный калькулятор по дням";
+}
+
+<div class="container mt-4">
+    <h1>Кредитный калькулятор по дням</h1>
+    <form asp-action="CalculateDailySchedule" method="post" class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="LoanAmount" class="form-label">Сумма займа</label>
+            <input asp-for="LoanAmount" class="form-control" required type="number" step="1000" title="Сумма займа должна быть кратна 1000." />
+            <span asp-validation-for="LoanAmount" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="LoanTermDays" class="form-label">Срок займа (в днях)</label>
+            <input asp-for="LoanTermDays" class="form-control" required type="number" step="1" title="Срок займа должнен быть указан целым числом в днях." />
+            <span asp-validation-for="LoanTermDays" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="DailyRate" class="form-label">Ставка (в день, %)</label>
+            <input asp-for="DailyRate" class="form-control" required type="number" step="0.01" title="Ставка платежа должна быть с шагом 0.01"/>
+            <span asp-validation-for="DailyRate" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="PaymentStepDays" class="form-label">Шаг платежа (в днях)</label>
+            <input asp-for="PaymentStepDays" class="form-control" required type="number" step="1" title="Шаг платежа должен быть указан целым числом в днях с шагом 1"/>
+            <span asp-validation-for="PaymentStepDays" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Рассчитать</button>
+    </form>
+    <br><a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Вернуться к базовому калькулятору</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

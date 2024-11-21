@@ -1,0 +1,47 @@
+﻿@using CreditCalculator.Domain.Models.MainTask
+@model LoanResultModel
+@{
+    ViewData["Title"] = "Результаты расчета";
+}
+<h1>Результаты расчета</h1>
+<p>Ежемесячный платеж: <b>@Model.MonthlyPayment</b></p>
+<p>Итоговая переплата: <b>@Model.TotalOverpayment</b></p>
+<div class="container mt-4">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Дата платежа</th>
+                <th>Платеж по телу</th>
+                <th>Платеж по %</th>
+                <th>Остаток долга</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var payment in Model.Payments)
+            {
+                <tr>
+                    <td>@payment.PaymentNumber</td>
+                    <td>@payment.PaymentDate.ToShortDateString()</td>
+                    <td>@payment.PrincipalPayment</td>
+                    <td>@payment.InterestPayment</td>
+                    <td>@payment.RemainingBalance</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br><a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Вернуться к базовому калькулятору</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('table tbody tr').length === 0) {
+                $('table').hide();
+                alert('Нет доступных данных для отображения');
+            }
+        });
+    </script>
+}

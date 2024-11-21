@@ -1,0 +1,47 @@
+﻿@using CreditCalculator.Domain.Models.Daily
+@model LoanCalculationResultModel
+<h2>Результат расчета</h2>
+
+<p>Сумма кредита: @Model.LoanAmount</p>
+<p>Срок (дней): @Model.LoanTermDays</p>
+<p>Ставка (%): @Model.DailyRate</p>
+<p>Общая сумма к выплате: @Model.TotalRepayment</p>
+<p>Переплата по процентам: @Model.TotalInterest</p>
+<h3>График платежей</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Дата</th>
+            <th>Основной долг</th>
+            <th>Проценты</th>
+            <th>Остаток долга</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.PaymentSchedule)
+        {
+            <tr>
+                <td>@item.PaymentNumber</td>
+                <td>@item.PaymentDate.ToShortDateString()</td>
+                <td>@item.PrincipalPayment</td>
+                <td>@item.InterestPayment</td>
+                <td>@item.RemainingBalance</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br><a asp-controller="LoanDailyCalculator" asp-action="Index" class="btn btn-secondary">Вернуться к калькулятору по дням</a>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('table tbody tr').length === 0) {
+                $('table').hide();
+                alert('Нет доступных данных для отображения');
+            }
+        });
+    </script>
+}

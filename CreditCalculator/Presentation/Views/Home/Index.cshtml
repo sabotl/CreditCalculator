@@ -1,0 +1,32 @@
+﻿@using CreditCalculator.Domain.Models.MainTask
+
+@model LoanInputModel
+@{
+    ViewData["Title"] = "Кредитный калькулятор";
+}
+
+<div class="container mt-4">
+    <h1>Кредитный калькулятор</h1>
+    <form asp-action="Calculate" method="post" class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="LoanAmount" class="form-label">Сумма займа</label>
+            <input asp-for="LoanAmount" class="form-control" required type="number" step="1000" title="Сумма займа должна быть кратна 1000"/>
+            <span asp-validation-for="LoanAmount" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="LoanTerm" class="form-label">Срок займа (мес.)</label>
+            <input asp-for="LoanTerm" class="form-control" required type="number" step="1" title="Введите количество месяцев (целое число от 1 до 360)." />
+            <span asp-validation-for="LoanTerm" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="AnnualInterestRate" class="form-label">Ставка (%)</label>
+            <input asp-for="AnnualInterestRate" class="form-control" required type="number" step="1" title="Введите целую ставку от 1% до 100%." />
+            <span asp-validation-for="AnnualInterestRate" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Рассчитать</button>
+    </form>
+    <br><a asp-controller="LoanDailyCalculator" asp-action="Index" class="btn btn-secondary">Калькуляторс по дням</a>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
